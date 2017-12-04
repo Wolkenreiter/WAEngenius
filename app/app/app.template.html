@@ -23,13 +23,29 @@ and open the template in the editor.
     </div>
     <!-- base weight -->
     <div class="ship-component-box-outer">
-        <div class="ship-component-header">
-            <div class="ship-component-tab stat-background">Base&nbsp;Mass:&nbsp;</div>
-            <div style="flex:1"></div>
+        <div style="display: flex; flex-direction: row">
+            <div style="flex:1;display:flex; flex-direction: column; margin-right:10px">
+                <div class="ship-component-header">
+                    <div class="ship-component-tab stat-background">Additional&nbsp;Mass</div>
+                    <div style="flex:1"></div>
+                </div>
+                <div class="ship-component-box-inner">
+                    <input style="width:300px" ng-change="$ctrl.saveShipConfig()" type="text" ng-model="$ctrl.currentShip.baseMass"/>&nbsp;kg
+                </div>
+            </div>
+            <div style="flex:1;display:flex; flex-direction: column">
+                <div class="ship-component-header">
+                    <div class="ship-component-tab stat-background">Additional&nbsp;Power</div>
+                    <div style="flex:1"></div>
+                </div>
+                <div class="ship-component-box-inner">
+                    <input style="width:300px" ng-change="$ctrl.saveShipConfig()" type="text" ng-model="$ctrl.currentShip.addPower"/>
+                </div>
+            </div>
         </div>
-        <div class="ship-component-box-inner">
-            <input ng-change="$ctrl.saveShipConfig()" type="number" ng-model="$ctrl.currentShip.baseMass"/>kg
-        </div>
+        <p class="hint">
+            Hint: You can use basic expressions here, e.g. <span style="font-style:italic">2*60+74</span>
+        </p>
     </div>
     <engine-set-editor ng-repeat="e in $ctrl.currentShip.engines track by e.setId" 
         set-id="e.setId" 

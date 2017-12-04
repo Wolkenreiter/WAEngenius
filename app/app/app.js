@@ -82,15 +82,23 @@ angular.module('waEngineCalc', []).component('app', {
             //the actual ship configuration
             this.ShipConfig = function () {
                 this.engines = [];
-                this.baseMass = 0;
+                this.baseMass = '1000';
+                this.addPower = '0';
                 this.getPower = () => {
-                    let power = 0;
+                    if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.]+$'))
+                        var power = eval(this.addPower);
+                    else
+                        var power = 0;
                     for(let ee in this.engines)  
                         power += this.engines[ee].getPower();
                     return power;
                 };
                 this.getMass = () => {
-                    let mass = this.baseMass;
+                    if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.]+$'))
+                        var mass = eval(this.baseMass);
+                    else
+                        var mass = 0;
+                    //let mass = this.baseMass;
                     for(let ee in this.engines)
                         mass+= this.engines[ee].getMass();
                     return mass;

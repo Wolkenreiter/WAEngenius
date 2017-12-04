@@ -1,12 +1,17 @@
 /* app css stylesheet */
 
-.material-list {
-    margin: 10px;
-    background: #f6f8f9; /* Old browsers */
-    background: -moz-linear-gradient(-45deg, #f6f8f9 0%, #e5ebee 50%, #d7dee3 51%, #f5f7f9 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+.credits{
+    font-weight: lighter;
+    margin-left: 60px;
+    margin-bottom: 30px;
+}
+
+.hint{
+    font-weight: lighter;
+    font-size: 11pt;
+    margin: 0;
+    margin-top: 7px;
+    margin-left:20px;
 }
 
 body {
@@ -22,7 +27,6 @@ h1 {
 h2 {
     margin-left: 40px;
 }
-
 
 hr {
   border: 0;
@@ -40,15 +44,12 @@ form {
 input /*, label */{
     height: 1.5em;
     padding-left: 10px;
-    
-    /*padding-left: 20px; */
 }
 
 select, input {
     outline: 0;
     border-radius: 6px;
     border: thin solid #999999;
-    /*vertical-align: middle;*/
 }
 
 select:focus, input:focus
@@ -74,7 +75,6 @@ select {
 
 .eng-mat-lbl {
     display: block;
-    /*margin-right: 20px;*/
     text-align: center;
 }
 
@@ -83,14 +83,11 @@ div.ship-component-header {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
     height: auto;
-    /*margin: 10px 10px;*/
     padding: 0;
 }
 
 div.engine-list-entry-body {
-    /*border-top: thin solid lightgrey;*/
     padding: 10px 10px;
     margin: 0 0;
     -moz-transition: height .5s;
@@ -98,9 +95,7 @@ div.engine-list-entry-body {
     -o-transition: height .5s;
     -webkit-transition: height .5s;
     transition: height .5s;
-    /*height: 0;*/
     overflow: hidden;
-
 }
 
 div.engine-list-footer {
@@ -143,18 +138,17 @@ div.engine-set-editor-footer > div {
 }
 
 .ship-schem-editor-comp-group {
-    flex: 0.25;
-    min-width: 120px;
+    flex: 1;
+    min-width: 50px;
     vertical-align: middle;
     display: flex;
     align-items: center;
 }
 
 .ship-schem-editor-comp-group > input {
-    
     margin: 0 5px 0;
-    width: 100%;
-   box-sizing: border-box; 
+    box-sizing: border-box; 
+    width: 100px;
 }
 
 .ship-component-box-outer {
@@ -181,11 +175,9 @@ div.engine-set-editor-footer > div {
     background-color: rgba(255,555,255,0.8);
 }
 
-
 .ship-component-box-inner {
     padding: 10px 10px;
     margin: 0 0;
-    /*background-color: #f3f4f6;*/
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
@@ -219,6 +211,5 @@ h2.stat-block-header {
     margin: 5px;
     margin-left: 20px;
     font-size: 14pt;
-    
 }
 
