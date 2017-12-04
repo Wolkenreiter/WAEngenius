@@ -23,14 +23,21 @@ and open the template in the editor.
     <hr>
     <!--div style="margin:auto">Base Stats</div-->
     <div class="engine-schem-editor-row">
-        <div class="ship-schem-editor-comp-group">
+        <!-- it works like this -->
+        <!--div class="ship-schem-editor-comp-group">
             Power
             <input type="number" ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.baseStats.power"/>
-        </div>
+        </div-->
+        <!-- but this will not work -->
+         <div class="ship-schem-editor-comp-group" ng-repeat="(statName, statPoints) in $ctrl.engineSchemData.baseStats">
+            <!--span style="text-transform: capitalize">{{statName}}&nbsp;</span-->
+            <input ng-change="$ctrl.updateEngineSchem()" ng-model="statPoints" />
+            {{$ctrl.engineSchemData.baseStats.power}}
+        <
     </div>
     <hr>
     <!--div style="margin:auto">#Material Units</div-->
-    <div class="engine-schem-editor-row">
+    <div class="engine-schem-editor-row" >
         <div class="ship-schem-editor-comp-group" style="flex-direction: column; padding: 0 10px" ng-repeat="(compName, compData) in $ctrl.engineSchemData.components">
             #{{compName}}&nbsp;<input ng-change="$ctrl.updateEngineSchem()" type="number" ng-model="compData.matCount"/>
         </div>
