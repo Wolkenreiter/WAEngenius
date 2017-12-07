@@ -85,8 +85,14 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                 this.baseMass = '1000';
                 this.addPower = '0';
                 this.getPower = () => {
-                    if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$'))
-                        var power = eval(this.addPower);
+                    if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$')) {
+                        try {
+                            var power = eval(this.addPower);
+                        }
+                        catch(e) {
+                            var power = 0;
+                        }
+                    }
                     else
                         var power = 0;
                     for(let ee in this.engines)  
@@ -94,8 +100,14 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                     return power;
                 };
                 this.getMass = () => {
-                    if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$'))
-                        var mass = eval(this.baseMass);
+                    if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$')) {
+                        try {
+                            var mass = eval(this.baseMass);
+                        }
+                        catch(e) {
+                            var mass = 0;
+                        }
+                    }
                     else
                         var mass = 0;
                     //let mass = this.baseMass;

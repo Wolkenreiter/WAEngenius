@@ -19,7 +19,7 @@ body {
     /*font-family: 'Roboto', sans-serif;*/
     /*font-family: 'Oswald', sans-serif;*/
     line-height: 200%;
-    font-size: 12pt;
+    font-size: 11pt;
 }
 
 h1 {
@@ -182,6 +182,7 @@ div.engine-set-editor-footer > div {
     margin-top: 5px;
     padding: 3px 9px;
     background-color: rgba(255,555,255,0.8);
+    font-size: 12pt;
 }
 
 .ship-component-box-inner {
