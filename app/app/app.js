@@ -29,7 +29,7 @@ EngineSchem.Default = function() {
 };
 
 // Declare app level module which depends on views, and components
-angular.module('waEngineCalc', []).component('app', {
+angular.module('waEngineCalc', ['chart.js']).component('app', {
     templateUrl : 'app/app.template.html',
     controller: [ '$scope', '$window',
         function($scope, $window) {
@@ -62,7 +62,7 @@ angular.module('waEngineCalc', []).component('app', {
                             + app.materialData[this.slots.Propeller.material].prop[this.slots.Propeller.quality - 1]);
                     }
                     catch(e) {
-                        return 0;
+                        console.log(e);
                     }
                 };
                 this.getMass = ()=> {
@@ -85,7 +85,7 @@ angular.module('waEngineCalc', []).component('app', {
                 this.baseMass = '1000';
                 this.addPower = '0';
                 this.getPower = () => {
-                    if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.]+$'))
+                    if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$'))
                         var power = eval(this.addPower);
                     else
                         var power = 0;
@@ -94,7 +94,7 @@ angular.module('waEngineCalc', []).component('app', {
                     return power;
                 };
                 this.getMass = () => {
-                    if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.]+$'))
+                    if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$'))
                         var mass = eval(this.baseMass);
                     else
                         var mass = 0;
@@ -105,6 +105,21 @@ angular.module('waEngineCalc', []).component('app', {
                 };
                 this.getSpeed = () => {
                     return 50* Math.sqrt(2 * this.getPower()/this.getMass());
+                };
+                this.clone = () => {
+                    var copy = _.merge(new app.ShipConfig(),JSON.parse(JSON.stringify(this)));
+                    
+                    /*copy.engines = [];
+                    for(let ee in this.engines) {
+                        let set = _.merge(new app.EngineSet(), this.engines[ee]);
+                        //set.slots = angular.copy(this.engines[ee].slots);
+                        copy.engines[ee] = set;
+                        copy.engines[ee].setId = this.engines[ee].setId;
+                    };
+                    copy.getPower = this.getPower.bind(copy);
+                    copy.getSpeed = this.getSpeed.bind(copy);
+                    copy.getMass = this.getMass.bind(copy); */
+                    return copy;
                 };
             };
             
@@ -118,12 +133,17 @@ angular.module('waEngineCalc', []).component('app', {
                 console.log('saving ship config');
                 $window.localStorage.setItem('ship:' + this.shipList[0].id, JSON.stringify(this.currentShip));
             };
+            this.updateShipConfig = () => {
+                this.recalcChartData();
+                this.saveShipConfig();
+            };
             this.saveEngineList = () => {
                 $window.localStorage.setItem('engines', JSON.stringify(this.engineList));
             };
             //add a new engine set to the current ship configuration
             this.addEngineSet = function () {
                 app.currentShip.engines.push(new app.EngineSet());
+                this.recalcChartData();
                 this.saveShipConfig();
             };
             this.getEngineSchemById = (schemId) => {
@@ -135,10 +155,62 @@ angular.module('waEngineCalc', []).component('app', {
                     console.log(e + ' : ' + schemId );
                 }
             };
+            
+            this.recalcChartData = () => {
+                var oldMat, oldQ;
+                try {
+                    var setId = this.focusedEngineSet;
+                    var comp = this.focusedEngineComp;
+                    var tempConfig = this.currentShip;
+                    var set = tempConfig.engines.find((val)=> { return val.setId === setId; } );
+                    
+                    
+                    //console.log('found set: ' + set);
+                    oldMat = set.slots[this.focusedEngineComp].material;
+                    oldQ = set.slots[this.focusedEngineComp].quality;
+                    //var materials = ['Titanium','Iron', 'Steel', 'Nickel', 'Tungsten'];
+                    this.chartData = [];
+                    for(let mm in this.materialNames) {
+                        set.slots[comp].material = this.materialNames[mm];
+                        this.chartData[mm] = [];
+                        for(let qq=1; qq<=10; qq++) {
+                            set.slots[comp].quality = qq;
+                            switch(this.graphMode) {
+                                case 'speed': {
+                                    this.chartData[mm].push(tempConfig.getSpeed());
+                                    break;
+                                }
+                                case 'power:set': {
+                                    this.chartData[mm].push(set.getPower());
+                                    break;
+                                }
+                                case 'power:ship': {
+                                    this.chartData[mm].push(this.currentShip.getPower());
+                                    break;
+                                }
+                                case 'massEfficiency': {
+                                    this.chartData[mm].push(this.currentShip.getPower() / this.currentShip.getMass());
+                                }
+                            }
+                            //this.chartData[mm].push(tempConfig.getPower() / tempConfig.getMass());
+                        }
+                    }
+                    set.slots[this.focusedEngineComp].material = oldMat;
+                    set.slots[this.focusedEngineComp].quality = oldQ;
+                    return this.chartData;
+                }
+                catch(e) {
+                    console.log(e);
+                }
+            };
+            this.getChartData = () => {
+                return this.chartData;
+            };
             $scope.$on('engineSet:remove', (event, args) => {
                 try {
                     this.currentShip.engines.splice(this.currentShip.engines.findIndex((eSet) => { return eSet.setId === args.setId; } ), 1);
                     this.saveShipConfig();
+                    this.recalcChartData();
                 }
                 catch(e) {
                     console.log(e);
@@ -155,6 +227,7 @@ angular.module('waEngineCalc', []).component('app', {
             });
             $scope.$on('engineSchem:changed', (event, args) => {
                 this.saveEngineList();
+                this.recalcChartData();
             });
             $scope.$on('engineSchem:startEdit', (event, args) => {
                 this.engineSetBeingEdited = args.setId;
@@ -165,12 +238,25 @@ angular.module('waEngineCalc', []).component('app', {
             });
             $scope.$on('engineSet:changed', (even, args) => {
                 this.saveShipConfig();
+                this.recalcChartData();
             });
-            
+            $scope.$on('graphFocus:set', (event, args) => {
+               console.log('graph focus: ' + args.setId);
+               this.focusedEngineSet = args.setId;
+               this.focusedEngineComp = args.compName;
+               this.focusedEngineName = this.getEngineSchemById(this.currentShip.engines.find((ee)=>{return ee.setId === args.setId;}).engineId).name.toString();
+               this.recalcChartData();
+            });
+            $scope.$on('graphMode:set', (event, args)=> {
+               this.graphMode = args; 
+               console.log('graphmode: ' + args);
+               this.recalcChartData();
+            });
             this.$onInit = () => {
                 //fetch engine data from local storage
                 console.log('init started');
                 this.engineList = [];
+                this.chartData = [];
                 let storageData = $window.localStorage.getItem('engines');
                 if(!storageData) {
                     let engine = EngineSchem.Default();
@@ -207,10 +293,13 @@ angular.module('waEngineCalc', []).component('app', {
                         for(let ee in this.currentShip.engines) {
                             this.currentShip.engines[ee] = _.merge(new this.EngineSet(), this.currentShip.engines[ee]);
                         }
-                        console.log('Power: ' + this.currentShip.engines[0].getPower());
                     }
                 }
-                
+                //set initial chart focus
+                this.focusedEngineSet = this.currentShip.engines[0].setId;
+                this.focusedEngineName = this.getEngineSchemById(this.currentShip.engines[0].engineId).name.toString();
+                this.focusedEngineComp = 'Combustion Internals';
+                this.graphMode = 'speed';
                 //query material power boost table from Google spreadsheet
                 sheetrock({
                     url: "https://docs.google.com/spreadsheets/d/1RBskFnl2LbcOv9Dr_eLbeUkFY8h8ZMVhwmT5opuGnNg/edit#gid=0",
@@ -227,8 +316,9 @@ angular.module('waEngineCalc', []).component('app', {
                                     this.materialData[matName].prop = response.rows[ii].cellsArray.slice(12).map(Number);
                                 }
                                 this.materialNames = Object.keys(this.materialData);
+                                this.recalcChartData();
                             });
-                            console.log('finished reading data from Spreadsheet');
+                            //console.log('finished reading data from Spreadsheet');
                         }
                         else
                             alert(error);

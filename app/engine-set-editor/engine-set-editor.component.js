@@ -20,12 +20,21 @@ angular.module('waEngineCalc').component('engineSetEditor', {
             function($scope) {
                 //additional information to format the layout of the material slot inputs
                 this.slotDesc = { 
-                    Casing: { hasQuality: false},
-                    'Combustion Internals': { hasQuality: true },
-                    'Mechanical Internals': { hasQuality: false },
-                    Propeller: { hasQuality: true}
+                    Casing: { hasQuality: false, canFocus: true},
+                    'Combustion Internals': { hasQuality: true, canFocus: true },
+                    'Mechanical Internals': { hasQuality: false, canFocus: true },
+                    Propeller: { hasQuality: true, canFocus: true}
                 };
                 
+                this.focusComp = function(slotName) {
+                    try {
+                        if(this.slotDesc[slotName].canFocus) {
+                            console.log('focusing ' + slotName);
+                            $scope.$emit('graphFocus:set', {setId: this.setId, compName: slotName});
+                        }
+                    }
+                    catch(e) {}
+                };
                 this.updateEngineSet = () => {
                     $scope.$emit('engineSet:changed', {engineSetData: this.engineSetData});
                 };
