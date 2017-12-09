@@ -32,7 +32,9 @@ and open the template in the editor.
                         <div style="flex:1"></div>
                     </div>
                     <div class="ship-component-box-inner">
-                        <span style="white-space: nowrap"><input style="width:300px" ng-change="$ctrl.updateShipConfig()" type="text" ng-model="$ctrl.currentShip.baseMass"/>&nbsp;kg</span>
+                        <span style="white-space: nowrap;width:100%">
+                            <input style="margin:0 5px;box-sizing: border-box;width:90%" ng-change="$ctrl.updateShipConfig()" type="text" ng-model="$ctrl.currentShip.baseMass"/>&nbsp;kg
+                        </span>
                     </div>
                 </div>
                 <div style="flex:1;display:flex; flex-direction: column">
@@ -41,7 +43,7 @@ and open the template in the editor.
                         <div style="flex:1"></div>
                     </div>
                     <div class="ship-component-box-inner">
-                        <input style="width:300px" ng-change="$ctrl.updateShipConfig()" type="text" ng-model="$ctrl.currentShip.addPower"/>
+                        <input style="margin:0 5px;box-sizing: border-box;width:97%" ng-change="$ctrl.updateShipConfig()" type="text" ng-model="$ctrl.currentShip.addPower"/>
                     </div>
                 </div>
             </div>
@@ -63,13 +65,12 @@ and open the template in the editor.
         </div>
     </div>
     <div id="graph-floater" style="top:0;width:45%;display:flex;flex-direction: column;margin:0;right:0">        
-        <div id="graph-container" class="ship-component-box-outer chart-floater" style="top:0">
+        <div id="graph-container" class="ship-component-box-outer chart-floater padding-absolute" style="top:0">
             <performance-chart 
                 performance-data="$ctrl.getChartData()" 
                 material-names="$ctrl.materialNames"
                 engine-name="$ctrl.focusedEngineName"
                 focused-slot="$ctrl.focusedSlot"></performance-chart>
-        <!--{{$ctrl.getChartData()}}-->
         </div>
     </div>
 </div>

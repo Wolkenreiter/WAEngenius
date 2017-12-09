@@ -15,9 +15,8 @@ angular.module('waEngineCalc').component('performanceChart', {
     },
     controller: ['$scope',
         function($scope){
-            console.log('chart init');
-            
-            Chart.defaults.global.elements.line.fill = true;
+            //console.log('chart init');
+            Chart.defaults.global.elements.line.fill = false;
             this.graphMode = 'speed';
             this.graphData = [];
             this.override = [];
@@ -82,7 +81,7 @@ angular.module('waEngineCalc').component('performanceChart', {
                         let color = jQuery.Color(colorNames[cc]);
                         this.override[cc] = {};
                         this.override[cc].borderColor = color.toHexString();
-                        this.override[cc].backgroundColor = '#ffffff00';
+                        this.override[cc].backgroundColor = 'transparent';
                         this.override[cc].pointBackgroundColor = color.toHexString();
                     }
                 }
@@ -138,8 +137,6 @@ angular.module('waEngineCalc').component('performanceChart', {
             /*$scope.onClick = function (points, evt) {
                 console.log(points, evt);
             };*/
-            //$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-            
         }
     ]
 });

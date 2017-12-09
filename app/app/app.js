@@ -227,7 +227,6 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                         else 
                             graph.removeClass('fixed');
                         graph.width(0.45 * $(window).width());
-                    //$.localScroll();
                     }
                     catch(e) {}
 

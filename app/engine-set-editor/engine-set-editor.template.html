@@ -30,9 +30,9 @@ and open the template in the editor.
                     <label style="white-space:nowrap; text-align: center">Combustion Internals</label>
                     <select ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
                 </div>
-                <div class="comp-group" >
+                <div class="comp-group comp-group-quality" >
                     <label style="white-space:nowrap; text-align: center">Quality</label>
-                    <input ng-focus="$ctrl.focusComp('Combustion Internals')" style="width:100%;min-width:120px;box-sizing:border-box" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].quality" style="width:50px"/>
+                    <input ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].quality"/>
                 </div>
             </div>
             <div class="eng-comp-col">
@@ -41,12 +41,12 @@ and open the template in the editor.
                     <select ng-focus="$ctrl.focusComp('Mechanical Internals')"  ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Mechanical Internals'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
                 </div>
                 <div  class="comp-group">
-                    <label style="white-space:nowrap; text-align: center">Combustion Internals</label>
+                    <label style="white-space:nowrap; text-align: center">Propeller</label>
                     <select ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Propeller'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
                 </div>
-                <div class="comp-group" >
+                <div class="comp-group comp-group-quality" >
                     <label style="white-space:nowrap; text-align: center">Quality</label>
-                    <input ng-focus="$ctrl.focusComp('Propeller')" style="width:100%;min-width:120px;box-sizing:border-box" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Propeller'].quality" style="width:50px"/>
+                    <input ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Propeller'].quality"/>
                 </div>
             </div>
         </div>

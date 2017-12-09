@@ -93,12 +93,23 @@ select {
 
 .comp-group {
     display:flex;
-    flex-basis: 50%;
-    flex-grow: 0;
+    flex-basis: 40%;
+    flex-grow: 1;
     flex-direction: column;
     flex-wrap: nowrap;
     align-content: flex-start;
     padding:5px;
+}
+
+.comp-group-quality {
+    flex-basis: 20%;
+    
+}
+
+.comp-group-quality > input[type=number] {
+    box-sizing:border-box;
+    width:100%;
+    min-width:50px;
 }
 
 .comp-group > * {
@@ -201,6 +212,10 @@ div.engine-set-editor-footer > div {
     /*padding-top: 5px;*/
 }
 
+.padding-absolute {
+    padding: 8px;
+}
+
 .ship-component-tab {
     width: auto;
     vertical-align: bottom; 
@@ -208,7 +223,7 @@ div.engine-set-editor-footer > div {
     border-top-right-radius: 12px; 
     margin: 0;
     margin-top: 0;
-    padding: 3px 9px;
+    padding: 7px 9px;
     background-color: rgba(255,555,255,0.8);
     font-size: 12pt;
 }

@@ -15,7 +15,7 @@ and open the template in the editor.
             <span><input type="radio" ng-change="$ctrl.setGraphMode()" name="graph-mode" ng-model="$ctrl.graphMode" value="power:ship"/><label>Power&nbsp;[Ship]</label></span>
             <span><input type="radio" ng-change="$ctrl.setGraphMode()" name="graph-mode" ng-model="$ctrl.graphMode" value="massEfficiency"/><label>Mass&nbsp;Efficiency</label></span>
         </div>
-        <canvas name="graph-canvas"  width="1280" height="960" id="line" class="chart chart-line" 
+        <canvas name="graph-canvas"  width="1280" height="900" id="line" class="chart chart-line" 
                 chart-data="$ctrl.performanceData"
                 chart-labels="$ctrl.labels" 
                 chart-series="$ctrl.materialNames" 
