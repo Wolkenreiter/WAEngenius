@@ -75,6 +75,35 @@ select {
     display: block;
     text-align: center;
 }
+.eng-comp-row {
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.eng-comp-col {
+    display:flex;
+    flex-basis: 33%;
+    flex-grow: 1;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+.comp-group {
+    display:flex;
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    padding:5px;
+}
+
+.comp-group > * {
+    align-content: center;
+}
 
 div.ship-component-header {
     display: flex; 
