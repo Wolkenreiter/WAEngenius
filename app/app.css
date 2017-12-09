@@ -16,8 +16,6 @@
 
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    /*font-family: 'Roboto', sans-serif;*/
-    /*font-family: 'Oswald', sans-serif;*/
     line-height: 200%;
     font-size: 11pt;
 }
@@ -48,7 +46,8 @@ input[type=text], input[type=number] /*, label */{
 select, input[type=text], input[type=number] {
     outline: 0;
     border-radius: 6px;
-    border: thin solid #999999;
+   border: thin solid lightgray;
+    /*border:none;*/
 }
 
 select:focus, input[type=text]:focus, input[type=number]:focus
@@ -170,7 +169,7 @@ div.engine-set-editor-footer > div {
     box-shadow: 0 2px 10px lightgrey;
     border-radius: 12px;
     padding: 1%;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
 }
 
 .ship-component-tab {
@@ -179,14 +178,14 @@ div.engine-set-editor-footer > div {
     border-top-left-radius: 12px; 
     border-top-right-radius: 12px; 
     margin: 0;
-    margin-top: 5px;
+    margin-top: 0;
     padding: 3px 9px;
     background-color: rgba(255,555,255,0.8);
     font-size: 12pt;
 }
 
 .ship-component-box-inner {
-    padding: 2% 2%;
+    padding: 1% 1%;
     margin: 0 0;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
