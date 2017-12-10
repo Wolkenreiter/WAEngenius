@@ -265,6 +265,7 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
             $scope.$on('engineSet:changed', (event, args) => {
                 this.saveShipConfig();
                 this.recalcChartData();
+                this.focusedEngineName = this.getEngineSchemById(args.engineSetData.engineId).name.toString();
                 this.focusedSlot = { 
                         name:  this.focusedSlot.name,
                         slotData : args.engineSetData.slots[this.focusedSlot.name] };  

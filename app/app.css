@@ -91,7 +91,7 @@ select {
     justify-content: space-between;
 }
 
-.comp-group {
+.eng-comp-group {
     display:flex;
     flex-basis: 40%;
     flex-grow: 1;
@@ -112,7 +112,12 @@ select {
     min-width:50px;
 }
 
-.comp-group > * {
+.eng-comp-group > label {
+    white-space:nowrap; 
+    text-align: center;
+}
+
+.eng-comp-group > * {
     align-content: center;
 }
 
@@ -209,7 +214,6 @@ div.engine-set-editor-footer > div {
     box-shadow: 0 2px 10px lightgrey;
     border-radius: 12px;
     padding: 1%;
-    /*padding-top: 5px;*/
 }
 
 .padding-absolute {
