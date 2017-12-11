@@ -196,10 +196,10 @@ div.engine-set-editor-footer > div {
     font-size: 11pt;
 }
 
-.ship-schem-editor-comp-group input {
-    flex: 1;
+.ship-schem-editor-comp-group  input, .ship-schem-editor-comp-group select {
+    flex-basis: 25%;
     margin: 0;
-    /*box-sizing: border-box; */
+    box-sizing: border-box; 
     padding-right:10px;
     width: 100%;
 }

@@ -257,7 +257,6 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
             });
             $scope.$on('engineSchem:startEdit', (event, args) => {
                 this.engineSetBeingEdited = args.setId;
-                console.log('start schematic editting: ' + args.setId);
             });
             $scope.$on('engineSchem:stopEdit', (event, args) => {
                 this.engineSetBeingEdited = '';
@@ -338,30 +337,59 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                };
 
                 this.graphMode = 'speed';
+                sheetrock({
+                    url: 'https://docs.google.com/spreadsheets/d/1RBskFnl2LbcOv9Dr_eLbeUkFY8h8ZMVhwmT5opuGnNg/edit#gid=153389871',
+                    query: 'select B,C,D,E,F,G',
+                    callback: (error, options, response) => {
+                        if(!error) {
+                            $scope.$apply( () => {
+                                this.enginePartData = { 
+                                    case: [],
+                                    head: [],
+                                    prop: []
+                                };
+                                for(let rr in response.rows) {
+                                    let idx = 0;
+                                    var partNames = Object.keys(this.enginePartData);
+                                    for(let pp in partNames) {
+                                        let partName = response.rows[rr].cellsArray[pp*2];
+                                        if(partName) {
+                                            this.enginePartData[partNames[pp]].push({ 
+                                                name: partName,
+                                                materialClass: response.rows[rr].cellsArray[pp*2+1]
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
                 //query material power boost table from Google spreadsheet
                 sheetrock({
-                    url: "https://docs.google.com/spreadsheets/d/1RBskFnl2LbcOv9Dr_eLbeUkFY8h8ZMVhwmT5opuGnNg/edit#gid=0",
-                    query: "select B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W limit 12 offset 1",
+                    url: 'https://docs.google.com/spreadsheets/d/1RBskFnl2LbcOv9Dr_eLbeUkFY8h8ZMVhwmT5opuGnNg/edit#gid=0',
+                    query: 'select B,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X offset 1',
                     callback: (error, options, response) => {
                         if(!error) {
                             $scope.$apply( ()=> {
                                 for(var ii = 0; ii<response.rows.length; ii++){
                                     var matName = response.rows[ii].cellsArray[0];
-                                    if(!this.materialData[matName])
-                                        this.materialData[matName] = {};
-                                    this.materialData[matName].unitMass = Number(response.rows[ii].cellsArray[1]);
-                                    this.materialData[matName].comb = response.rows[ii].cellsArray.slice(2,12).map(Number);
-                                    this.materialData[matName].prop = response.rows[ii].cellsArray.slice(12).map(Number);
+                                    this.materialData[matName] = { 
+                                        unitMass: Number(response.rows[ii].cellsArray[1]),
+                                        comb: response.rows[ii].cellsArray.slice(2,12).map(Number),
+                                        prop: response.rows[ii].cellsArray.slice(12).map(Number)
+                                    };
                                 }
                                 this.materialNames = Object.keys(this.materialData);
                                 this.recalcChartData();
                             });
                         }
-                        else
-                            alert(error);
+                        //else
+                            //alert(error);
                     }
                 });
-            };
+            }
         }
     ]
 });

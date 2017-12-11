@@ -5,8 +5,6 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <div style="display: flex; flex-direction: row;">
-    <script>
-    </script>
     <div class="ship-config" style="width:55%">
         <!-- Ship total stats -->
         <div class="ship-component-box-outer">
@@ -57,6 +55,7 @@ and open the template in the editor.
             material-names="$ctrl.materialNames" 
             engine-list="$ctrl.engineList"
             engine-set-being-edited="$ctrl.engineSetBeingEdited"
+            engine-part-data="$ctrl.enginePartData"
             engine-schem-data="$ctrl.getEngineSchemById(e.engineId)"
         >
         </engine-set-editor>

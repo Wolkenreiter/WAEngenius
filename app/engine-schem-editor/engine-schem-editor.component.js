@@ -6,7 +6,8 @@
 angular.module('waEngineCalc').component('engineSchemEditor', {
     templateUrl: 'engine-schem-editor/engine-schem-editor.template.html',
     bindings: {
-        engineSchemData: '<'
+        enginePartData: '<',
+        engineSchemData: '='
     },
     
     controller: [ '$scope',

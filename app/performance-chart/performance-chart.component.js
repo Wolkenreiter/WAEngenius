@@ -83,6 +83,9 @@ angular.module('waEngineCalc').component('performanceChart', {
                         this.override[cc].borderColor = color.toHexString();
                         this.override[cc].backgroundColor = 'transparent';
                         this.override[cc].pointBackgroundColor = color.toHexString();
+                        this.override[cc].pointHoverBorderColor = color.toHexString();
+                        this.override[cc].pointHoverBackgroundColor = color.toHexString();
+                        this.override[cc].pointHoverRadius = 6;
                     }
                 }
             };

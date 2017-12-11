@@ -9,10 +9,12 @@ angular.module('waEngineCalc').component('engineSetEditor', {
     bindings:   { 
                     setId: '<',
                     engineSetData: '<' ,
-                    engineSchemData: '<',
                     materialNames: '<',
                     engineList: '<',
-                    engineSetBeingEdited: '<'
+                    engineSetBeingEdited: '<',
+                    enginePartData: '<',
+                    engineSchemData: '='
+                    
                 },
     controller: 
         [

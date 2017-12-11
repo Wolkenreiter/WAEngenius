@@ -9,15 +9,15 @@ and open the template in the editor.
     <div class="engine-schem-editor-row">
         <div class="ship-schem-editor-comp-group">
             <label>Case</label>
-            <div><input type="text" ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.case"/></div>
+            <div><select ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.case" ng-options="case.name as case.name for case in $ctrl.enginePartData.case"/></div>
         </div>
         <div class="ship-schem-editor-comp-group">
             <label>Head</label>
-            <div><input type="text" ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.head"/></div>
+            <div><select ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.head" ng-options="h.name as h.name for h in $ctrl.enginePartData.head"/></div>
         </div>
         <div class="ship-schem-editor-comp-group">
             <label>Propeller</label>
-            <div><input type="text" ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.prop"/></div>
+            <div><select ng-change="$ctrl.updateEngineSchem()" ng-model="$ctrl.engineSchemData.name.prop" ng-options="p.name as p.name for p in $ctrl.enginePartData.prop"/></div>
         </div>
         <div class="ship-schem-editor-comp-group">
             <label>Number</label>
