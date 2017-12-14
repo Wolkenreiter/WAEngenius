@@ -32,8 +32,8 @@ EngineSchem.Default = function() {
 // Declare app level module which depends on views, and components
 angular.module('waEngineCalc', ['chart.js']).component('app', {
     templateUrl : 'app/app.template.html',
-    controller: [ '$scope', '$window',
-        function($scope, $window) {
+    controller: [ '$scope', '$window', '$filter',
+        function($scope, $window, $filter) {
             this.materialData = {};
             this.engineSetBeingEdited = '';
             var app = this;
@@ -102,16 +102,17 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                     return power;
                 };
                 this.getMass = () => {
+                    let mass = 0;
                     if(this.baseMass.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$')) {
                         try {
-                            var mass = eval(this.baseMass);
+                            mass = eval(this.baseMass);
                         }
                         catch(e) {
-                            var mass = 0;
+                            mass = 0;
                         }
                     }
                     else
-                        var mass = 0;
+                        mass = 0;
                     for(let ee in this.engines)
                         mass+= this.engines[ee].getMass();
                     return mass;
@@ -175,12 +176,30 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                     var comp = this.focusedEngineComp;
                     var tempConfig = this.currentShip;
                     var set = tempConfig.engines.find((val)=> { return val.setId === setId; } );
+                    //determine materials to plot according to component
+                    let schemData = this.getEngineSchemById(set.engineId);
+                    let materialClass = '';
+                    switch(comp) {
+                        case 'Mechanical Internals':
+                        case 'Combustion Internals': {
+                            materialClass = 'm';
+                            break;
+                        }
+                        case 'Casing' : {
+                            materialClass = this.enginePartData.case.find(partName => { return schemData.name.case === partName.name;}).materialClass;
+                            break;
+                        }
+                        case 'Propeller' : {
+                            materialClass = this.enginePartData.prop.find(partName => { return schemData.name.prop === partName.name;}).materialClass;
+                        }
+                    }
                     
+                    this.graphMaterials = $filter('arrayByMaterialClass')(this.materialData, materialClass);
                     oldMat = set.slots[this.focusedEngineComp].material;
                     oldQ = set.slots[this.focusedEngineComp].quality;
                     this.chartData = [];
-                    for(let mm in this.materialNames) {
-                        set.slots[comp].material = this.materialNames[mm];
+                    for(let mm in this.graphMaterials) {
+                        set.slots[comp].material = this.graphMaterials[mm];
                         this.chartData[mm] = [];
                         for(let qq=1; qq<=10; qq++) {
                             set.slots[comp].quality = qq;
@@ -208,6 +227,7 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                     return this.chartData;
                 }
                 catch(e) {
+                    console.log(e);
                 }
             };
             this.getChartData = () => {
@@ -240,6 +260,7 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                 //this.engineList[idx] = {id: engineId, schem: angular.copy(engineSchemData) };
                 this.engineList[idx].schem = angular.copy(engineSchemData);
                 this.saveEngineList();
+                this.recalcChartData();
             };
             $scope.$on('engineSet:remove', (event, args) => {
                 try {

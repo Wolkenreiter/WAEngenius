@@ -23,6 +23,19 @@
     
     // shortid
     "shortid": false,
-    "sheetrock": false
+    //sheetrock
+    "sheetrock": false,
+
+    //browser internals
+    "console": false,
+
+    //lodash
+    "_": false,
+
+    //jQuery
+    "$": false,
+    "jQuery": false
+
+
   }
 }

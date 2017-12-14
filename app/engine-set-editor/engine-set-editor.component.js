@@ -72,10 +72,10 @@ angular.module('waEngineCalc').component('engineSetEditor', {
                     };
                     angular.forEach(slots, (partId, slotName)=> {
                         //get target materialClass
-                        let enginePartInfo = this.enginePartData[partId].find(part => { return part.name === this.engineSchemData.name[partId]}); 
+                        let enginePartInfo = this.enginePartData[partId].find(part => { return part.name === this.engineSchemData.name[partId];}); 
                         let materialClass = enginePartInfo.materialClass;
                         let subMatList = $filter('arrayByMaterialClass')(this.materialData, materialClass);
-                        if(!subMatList.find(matName => { return this.engineSetData.slots[slotName].material === matName}))
+                        if(!subMatList.find(matName => { return this.engineSetData.slots[slotName].material === matName;}))
                             this.engineSetData.slots[slotName].material = subMatList[0];
                     } );
                 }

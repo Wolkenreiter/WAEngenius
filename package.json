@@ -7,6 +7,7 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.7.7",
+    "grunt-bowercopy": "^1.2.4",
     "http-server": "^0.9.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
@@ -32,7 +33,15 @@
     "update-index-async": "node -e \"var fs=require('fs'),indexFile='app/index-async.html',loaderFile='app/bower_components/angular-loader/angular-loader.min.js',loaderText=fs.readFileSync(loaderFile,'utf-8').split(/sourceMappingURL=angular-loader.min.js.map/).join('sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map'),indexText=fs.readFileSync(indexFile,'utf-8').split(/\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/).join('//@@NG_LOADER_START@@\\n'+loaderText+'    //@@NG_LOADER_END@@');fs.writeFileSync(indexFile,indexText);\""
   },
   "dependencies": {
+    "clean": "^4.0.2",
+    "grunt": "^1.0.1",
+    "grunt-clean": "^0.4.0",
+    "grunt-concat": "^0.1.6",
+    "grunt-contrib-uglify": "^3.2.1",
+    "grunt-copy": "^0.1.0",
     "jshint": "^2.9.5",
-    "normalize.css": "^7.0.0"
+    "load-grunt-tasks": "^3.5.2",
+    "time-grunt": "^1.4.0",
+    "uglify": "^0.1.5"
   }
 }

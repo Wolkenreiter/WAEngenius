@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/* jshint esversion: 6 */
+ 'use strict';
 
 angular.module('waEngineCalc').component('performanceChart', {
     templateUrl: 'performance-chart/performance-chart.template.html',
@@ -84,7 +86,7 @@ angular.module('waEngineCalc').component('performanceChart', {
                         this.override[cc].backgroundColor = 'transparent';
                         this.override[cc].pointBackgroundColor = color.toHexString();
                         this.override[cc].pointHoverBorderColor = color.toHexString();
-                        this.override[cc].pointHoverBackgroundColor = color.toHexString();
+                        this.override[cc].pointHoverBackgroundColor = 'transparent';// color.toHexString();
                         this.override[cc].pointHoverRadius = 6;
                     }
                 }

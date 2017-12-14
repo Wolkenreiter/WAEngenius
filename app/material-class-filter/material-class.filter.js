@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+'use strict';
+
 angular.module('waEngineCalc').filter('arrayByMaterialClass',
     ()=> {
         return function(items, targetClass) {
@@ -9,6 +12,6 @@ angular.module('waEngineCalc').filter('arrayByMaterialClass',
                 
             });
             return out;
-        }
+        };
     }
-)
+);
