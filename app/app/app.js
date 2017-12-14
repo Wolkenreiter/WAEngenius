@@ -1,3 +1,4 @@
+/* jshint esversion: 6*/
 'use strict';
 
 function EngineSchem() {
@@ -9,8 +10,8 @@ function EngineSchem() {
         Propeller: { matCount: 0 }
     };
     this.name = { case: '', head: '', prop: '', number: 1 };
-    this.name.toString = () => {
-        return (this.name.case + ' ' + this.name.head + ' ' + this.name.prop + this.name.number);
+    this.name.toString = function() {
+        return (this.case + ' ' + this.head + ' ' + this.prop + this.number);
     };
 }
 
@@ -57,9 +58,9 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                 this.getPower = () => {
                     try {
                         let schem = app.engineList.find((val) => { return val.id === this.engineId; }).schem;
-                        return this.count * schem.baseStats.power 
-                            * (1 + app.materialData[this.slots['Combustion Internals'].material].comb[this.slots['Combustion Internals'].quality - 1]
-                            + app.materialData[this.slots.Propeller.material].prop[this.slots.Propeller.quality - 1]);
+                        return this.count * schem.baseStats.power * 
+                            (1 + app.materialData[this.slots['Combustion Internals'].material].comb[this.slots['Combustion Internals'].quality - 1] +
+                            app.materialData[this.slots.Propeller.material].prop[this.slots.Propeller.quality - 1]);
                     }
                     catch(e) {
                         //console.log(e);
@@ -85,16 +86,17 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                 this.baseMass = '1000';
                 this.addPower = '0';
                 this.getPower = () => {
+                    var power = 0;
                     if(this.addPower.match('^[\\d\\(\\)\\+\\-\\*\\/\\.\\s]+$')) {
                         try {
-                            var power = eval(this.addPower);
+                            power = eval(this.addPower);
                         }
                         catch(e) {
-                            var power = 0;
+                            power = 0;
                         }
                     }
                     else
-                        var power = 0;
+                        power = 0;
                     for(let ee in this.engines)  
                         power += this.engines[ee].getPower();
                     return power;
@@ -232,7 +234,13 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
 
                 });
             });
-
+            this.onEngineSchemUpdate = (engineId, property, engineSchemData) => {
+                console.log('Engine Schem updated.');
+                let idx = this.engineList.findIndex(item => { return item.id === engineId; });
+                //this.engineList[idx] = {id: engineId, schem: angular.copy(engineSchemData) };
+                this.engineList[idx].schem = angular.copy(engineSchemData);
+                this.saveEngineList();
+            };
             $scope.$on('engineSet:remove', (event, args) => {
                 try {
                     this.currentShip.engines.splice(this.currentShip.engines.findIndex((eSet) => { return eSet.setId === args.setId; } ), 1);
@@ -369,16 +377,18 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                 //query material power boost table from Google spreadsheet
                 sheetrock({
                     url: 'https://docs.google.com/spreadsheets/d/1RBskFnl2LbcOv9Dr_eLbeUkFY8h8ZMVhwmT5opuGnNg/edit#gid=0',
-                    query: 'select B,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X offset 1',
+                    query: 'select B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X offset 1',
                     callback: (error, options, response) => {
                         if(!error) {
                             $scope.$apply( ()=> {
+                                this.materialData = {};
                                 for(var ii = 0; ii<response.rows.length; ii++){
                                     var matName = response.rows[ii].cellsArray[0];
                                     this.materialData[matName] = { 
-                                        unitMass: Number(response.rows[ii].cellsArray[1]),
-                                        comb: response.rows[ii].cellsArray.slice(2,12).map(Number),
-                                        prop: response.rows[ii].cellsArray.slice(12).map(Number)
+                                        unitMass: Number(response.rows[ii].cellsArray[2]),
+                                        materialClass: response.rows[ii].cellsArray[1],
+                                        comb: response.rows[ii].cellsArray.slice(3,13).map(Number),
+                                        prop: response.rows[ii].cellsArray.slice(13).map(Number)
                                     };
                                 }
                                 this.materialNames = Object.keys(this.materialData);
@@ -389,7 +399,7 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                             //alert(error);
                     }
                 });
-            }
+            };
         }
     ]
 });

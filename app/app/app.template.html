@@ -53,10 +53,12 @@ and open the template in the editor.
             set-id="e.setId" 
             engine-set-data="e" 
             material-names="$ctrl.materialNames" 
+            material-data="$ctrl.materialData"
             engine-list="$ctrl.engineList"
             engine-set-being-edited="$ctrl.engineSetBeingEdited"
             engine-part-data="$ctrl.enginePartData"
             engine-schem-data="$ctrl.getEngineSchemById(e.engineId)"
+            on-engine-schem-update="$ctrl.onEngineSchemUpdate(engineId, property, engineSchemData)"
         >
         </engine-set-editor>
         <div class="engine-list-footer">

@@ -19,6 +19,10 @@
     // Protractor
     "browser": false,
     "element": false,
-    "by": false
+    "by": false,
+    
+    // shortid
+    "shortid": false,
+    "sheetrock": false
   }
 }

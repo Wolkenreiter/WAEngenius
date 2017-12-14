@@ -19,16 +19,21 @@ and open the template in the editor.
         </div>
     </div>
     <div class="ship-component-box-inner" style="display: flex; flex-direction: column; flex-wrap:wrap; justify-content: flex-start;">
-        <engine-schem-editor ng-show="$ctrl.engineSetBeingEdited === $ctrl.setId" set-id="$ctrl.setId" engine-part-data="$ctrl.enginePartData" engine-schem-data="$ctrl.engineSchemData"></engine-schem-editor>
+        <engine-schem-editor ng-show="$ctrl.engineSetBeingEdited === $ctrl.setId" set-id="$ctrl.setId" 
+        engine-part-data="$ctrl.enginePartData" 
+        engine-schem-data="$ctrl.engineSchemData"
+        on-update="$ctrl.engineSchemUpdate(property, engineSchemData)">
+    </engine-schem-editor>
         <div class="eng-comp-row">
             <div class="eng-comp-col">
                 <div  class="eng-comp-group">
                     <label>Casing</label>
-                    <select ng-focus="$ctrl.focusComp('Casing')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Casing'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
+                    <select ng-focus="$ctrl.focusComp('Casing')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Casing'].material" 
+                        ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:(($ctrl.enginePartData.case|filter:{name: $ctrl.engineSchemData.name.case})[0].materialClass)"></select>
                 </div>
                 <div  class="eng-comp-group">
                     <label>Combustion Internals</label>
-                    <select ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
+                    <select ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
                 </div>
                 <div class="eng-comp-group comp-group-quality" >
                     <label>Quality</label>
@@ -38,11 +43,12 @@ and open the template in the editor.
             <div class="eng-comp-col">
                 <div  class="eng-comp-group">
                     <label>Mechanical Internals</label>
-                    <select ng-focus="$ctrl.focusComp('Mechanical Internals')"  ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Mechanical Internals'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
+                    <select ng-focus="$ctrl.focusComp('Mechanical Internals')"  ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Mechanical Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
                 </div>
                 <div  class="eng-comp-group">
                     <label>Propeller</label>
-                    <select ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Propeller'].material" ng-options="m for m in $ctrl.materialNames track by m"></select>
+                    <select ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Propeller'].material" 
+                    ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:(($ctrl.enginePartData.prop|filter:{name: $ctrl.engineSchemData.name.prop})[0].materialClass)"></select>
                 </div>
                 <div class="eng-comp-group comp-group-quality" >
                     <label>Quality</label>
@@ -58,7 +64,7 @@ and open the template in the editor.
                 Mass:&nbsp;{{$ctrl.engineSetData.getMass()|number:2}}kg
             </div>
             <div>
-                Mass&nbsp;Efficiency:&nbsp;{{$ctrl.engineSetData.getPower()/$ctrl.engineSetData.getMass()|number:2}}
+                Mass&nbsp;Efficiency:&nbsp;{{$ctrl.engineSetData.getPower()/$ctrl.engineSetData.getMass()|number:3}}
             </div>
         </div>
     </div>
