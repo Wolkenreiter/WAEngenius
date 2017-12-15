@@ -19,31 +19,23 @@ angular.module('waEngineCalc').component('engineSetEditor', {
             engineSetBeingEdited: '<',
             enginePartData: '<',
             engineSchemData: '<',
-            onEngineSchemUpdate: '&'
+            onEngineSchemUpdate: '&',
+            onEngineSetUpdate: '&'
         },
 
     controller: [
         '$scope', '$filter',
         function($scope, $filter) {
-            //additional information to format the layout of the material slot inputs
-            this.slotDesc = { 
-                Casing: { hasQuality: false, canFocus: true},
-                'Combustion Internals': { hasQuality: true, canFocus: true },
-                'Mechanical Internals': { hasQuality: false, canFocus: true },
-                Propeller: { hasQuality: true, canFocus: true}
-            };
-            this.testMatClasses = [{materialClass: 'm' }, {materialClass: 'w'}];
             this.focusComp = function(slotName) {
                 try {
-                    if(this.slotDesc[slotName].canFocus) {
-                        console.log('focusing ' + slotName);
-                        $scope.$emit('graphFocus:set', {setId: this.setId, compName: slotName});
-                    }
+                    //console.log('focusing ' + slotName);
+                    $scope.$emit('graphFocus:set', {setId: this.setId, compName: slotName});
                 }
                 catch(e) {}
             };
-            this.updateEngineSet = () => {
+            this.updateEngineSet = function(property) {
                 $scope.$emit('engineSet:changed', {engineSetData: this.engineSetData});
+                this.onEngineSetUpdate({setId: this.setId, property: property, engineSetData: this.engineSetData});
             };
             this.removeEngineSet = () => {
                 $scope.$emit('engineSet:remove', {setId: this.setId});
@@ -57,10 +49,15 @@ angular.module('waEngineCalc').component('engineSetEditor', {
                 else
                     $scope.$emit('engineSchem:startEdit', {setId: this.setId});
             };
-            this.engineSchemUpdate = (property, engineSchemData) => {
-                console.log('Engine Schematic updated');
+            
+            /////////////////////////////////////////////////////////////////////////////////
+            // notification from engineSchemEditor that schematic has changed
+            /////////////////////////////////////////////////////////////////////////////////
+            this.engineSchemUpdate = function(property, engineSchemData) {
+                //console.log('Engine Schematic updated');
                 this.onEngineSchemUpdate({engineId: this.engineSetData.engineId, property: property, engineSchemData: engineSchemData});
             };
+
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // verify each material slot has a valid material assigned, according to the current materialClass of the respective part
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +79,9 @@ angular.module('waEngineCalc').component('engineSetEditor', {
                 catch(e) {}
             };
             
-            $scope.$on('engineSchemName:changed', (event, args) => {
-                console.log(args.currentValue);
-            });
+            ////////////////////////////////////////////////////////////////////////
+            // notification that engine data has changed from parent component
+            ////////////////////////////////////////////////////////////////////////
             this.$onChanges = function(changesObj)  {
                 if(changesObj.engineSchemData) 
                     this.validateSlotMaterials();

@@ -15,19 +15,20 @@ module.exports = function (grunt) {
            // Configurable paths
            app: 'app',
            dist: 'dist'
-        }	
+        }
+
     };
 
     // Define the configuration for all the tasks
     grunt.initConfig({
-          clean  : {
+        /*  clean  : {
 		dist : {
 		       files : [{
 				dot : true,
 				src : ['.tmp', '<%= paths.dist %>/*', '!<%= paths.dist %>/.git*']
 			}]
 		},
-	},
+	},*/
         copy : {
 		dist : {
 			files : [ {
@@ -46,6 +47,13 @@ module.exports = function (grunt) {
 			src    : '{,*/}*.css'
 		}
 	},
+    bower: {
+        dev: {
+          dest: 'lib/',
+          js_dest: 'lib/js',
+          css_dest: 'lib/styles'
+        }
+      }
 
     });
 

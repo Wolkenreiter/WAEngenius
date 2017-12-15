@@ -7,9 +7,9 @@ and open the template in the editor.
 <div class="ship-component-box-outer">
     <div  class="ship-component-header">
         <div class="ship-component-tab">
-            <input type="number" id="engine-count-{{$index}}" ng-change="$ctrl.updateEngineSet()" ng-model="$ctrl.engineSetData.count" style="width:50px"/>
+            <input type="number" id="engine-count-{{$index}}" ng-change="$ctrl.updateEngineSet('count')" ng-model="$ctrl.engineSetData.count" style="width:50px"/>
             <label for="engine-count-{{$index}}">&#10005;</label>
-            <select ng-change="$ctrl.updateEngineSet()" ng-model="$ctrl.engineSetData.engineId" ng-options="engine.id as engine.schem.name.toString() for engine in $ctrl.engineList"></select>
+            <select ng-change="$ctrl.updateEngineSet('engineId')" ng-model="$ctrl.engineSetData.engineId" ng-options="engine.id as engine.schem.name.toString() for engine in $ctrl.engineList"></select>
             <img ng-click="$ctrl.editEngineSchem()" src="images/iconmonstr-edit-6.svg" style="vertical-align:middle;" width="24" height="24" alt="edit engine"/>
             <img ng-click="$ctrl.createEngineSchem()" src="images/iconmonstr-plus-6.svg" style="vertical-align:middle;" width="24" height="24" alt="create new engine"/> 
         </div>
@@ -28,31 +28,31 @@ and open the template in the editor.
             <div class="eng-comp-col">
                 <div  class="eng-comp-group">
                     <label>Casing</label>
-                    <select ng-focus="$ctrl.focusComp('Casing')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Casing'].material" 
+                    <select ng-focus="$ctrl.focusComp('Casing')" ng-change="$ctrl.updateEngineSet('slots.Casing.material')" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Casing'].material" 
                         ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:(($ctrl.enginePartData.case|filter:{name: $ctrl.engineSchemData.name.case})[0].materialClass)"></select>
                 </div>
                 <div  class="eng-comp-group">
                     <label>Combustion Internals</label>
-                    <select ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
+                    <select ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet('slots.Combustion Internals.material')" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
                 </div>
                 <div class="eng-comp-group comp-group-quality" >
                     <label>Quality</label>
-                    <input ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].quality"/>
+                    <input ng-focus="$ctrl.focusComp('Combustion Internals')" ng-change="$ctrl.updateEngineSet('slots.Combustion Internals.quality')" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Combustion Internals'].quality"/>
                 </div>
             </div>
             <div class="eng-comp-col">
                 <div  class="eng-comp-group">
                     <label>Mechanical Internals</label>
-                    <select ng-focus="$ctrl.focusComp('Mechanical Internals')"  ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Mechanical Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
+                    <select ng-focus="$ctrl.focusComp('Mechanical Internals')"  ng-change="$ctrl.updateEngineSet('slots.Mechanical Internals.material')" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Mechanical Internals'].material" ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:'m'"></select>
                 </div>
                 <div  class="eng-comp-group">
                     <label>Propeller</label>
-                    <select ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Propeller'].material" 
+                    <select ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet('slots.Propeller.material')" style="width:100%;min-width:120px;box-sizing:border-box" ng-model="$ctrl.engineSetData.slots['Propeller'].material" 
                     ng-options="m for m in $ctrl.materialData|arrayByMaterialClass:(($ctrl.enginePartData.prop|filter:{name: $ctrl.engineSchemData.name.prop})[0].materialClass)"></select>
                 </div>
                 <div class="eng-comp-group comp-group-quality" >
                     <label>Quality</label>
-                    <input ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet()" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Propeller'].quality"/>
+                    <input ng-focus="$ctrl.focusComp('Propeller')" ng-change="$ctrl.updateEngineSet('slots.Propeller.quality')" type="number" min="1" max="10" ng-model="$ctrl.engineSetData.slots['Propeller'].quality"/>
                 </div>
             </div>
         </div>

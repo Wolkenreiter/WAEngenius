@@ -11,37 +11,23 @@
     bindings: {
         enginePartData: '<',
         engineSchemData: '<',
-        onUpdate: '&',
-        onUpdateName: '&'
+        onUpdate: '&'
     },
     
-    controller: [ '$scope',
-        function($scope) {
-            this.update = property => {
-                console.log('updated: ' + property );
+    controller: [ 
+        function() {
+            //propagate changes on engine schematic to parent component
+            this.update = function(property) {
+                //console.log('updated: ' + property );
                 this.onUpdate({property: property, engineSchemData: this.engineSchemData });
             };
-            
-            this.updateEngineSchem = () => {
-                console.log('updating Schematic: ' + this.engineSchemData.baseStats.power);
-                $scope.$emit('engineSchem:changed',{engineSchemData: this.engineSchemData});
-            };
-            this.updateEngineSchemName = () => {
-                
-                $scope.$emit('engineSchemName:changed', {
-                    currentValue: this.engineSchemData.name, 
-                    lastValue: this.oldName
-                });
-                this.oldName = angular.copy(this.engineSchemData.name);
-                this.updateEngineSchem();
-            }
-            this.$onChanges = (changesObj) => {
+            //create a copy of the bound data on change
+            this.$onChanges = function(changesObj) {
                 if(changesObj.engineSchemData) {
                     this.engineSchemData = angular.copy(changesObj.engineSchemData.currentValue);
-                    console.log(this.engineSchemData.name.toString());
+                    //console.log(this.engineSchemData.name.toString());
                 }
-            }
-            this.oldName = angular.copy(this.engineSchemData.name);
+            };
         }
     ]
 });
