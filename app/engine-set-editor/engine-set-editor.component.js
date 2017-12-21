@@ -24,8 +24,8 @@ angular.module('waEngineCalc').component('engineSetEditor', {
         },
 
     controller: [
-        '$scope', '$filter',
-        function($scope, $filter) {
+        '$scope', '$filter', 'engineParts',
+        function($scope, $filter, engineParts) {
             this.focusComp = function(slotName) {
                 try {
                     //console.log('focusing ' + slotName);
