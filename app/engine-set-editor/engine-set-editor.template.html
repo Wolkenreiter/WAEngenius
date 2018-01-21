@@ -9,7 +9,8 @@ and open the template in the editor.
         <div class="ship-component-tab">
             <input type="number" id="engine-count-{{$index}}" ng-change="$ctrl.updateEngineSet('count')" ng-model="$ctrl.engineSetData.count" style="width:50px"/>
             <label for="engine-count-{{$index}}">&#10005;</label>
-            <select ng-change="$ctrl.updateEngineSet('engineId')" ng-model="$ctrl.engineSetData.engineId" ng-options="engine.id as engine.schem.name.toString() for engine in $ctrl.engineList"></select>
+            <select class="procedural-tier-{{$ctrl.engineSchemData.tier}}" ng-change="$ctrl.updateEngineSet('engineId')" ng-model="$ctrl.engineSetData.engineId" ng-options="engine.id as engine.schem.name.toString() for engine in $ctrl.engineList"></select>
+            <!--span>Tier {{$ctrl.engineSchemData.tier}}</span-->
             <img ng-click="$ctrl.editEngineSchem()" src="images/iconmonstr-edit-6.svg" style="vertical-align:middle;" width="24" height="24" alt="edit engine"/>
             <img ng-click="$ctrl.createEngineSchem()" src="images/iconmonstr-plus-6.svg" style="vertical-align:middle;" width="24" height="24" alt="create new engine"/> 
         </div>

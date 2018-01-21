@@ -2,6 +2,8 @@
 'use strict';
 
 function EngineSchem() {
+    var self = this;
+    this.tier = 0;
     this.baseStats = { power: 0 };
     this.components =  { 
         Casing: { matCount: 0 },
@@ -11,15 +13,18 @@ function EngineSchem() {
     };
     this.name = { case: '', head: '', prop: '', number: 1 };
     this.name.toString = function() {
-        let name = '';
+        let name = this.case + ' ' + this.head + ' ' + this.prop + this.number;
         if(this.owner)
-            name += this.owner + '\'s ';
-        return (name  + this.case + ' ' + this.head + ' ' + this.prop + this.number);
+            name += ' [' + this.owner + ']';
+        return name;
     };
 }
 
+EngineSchem.wpuFactors = [1, 0.875, 0.7777, 0.7083];
+
 EngineSchem.Default = function() {
     var eng = new EngineSchem();
+    eng.tier = 4;
     eng.baseStats.power = 50;
     eng.name.case = 'Ironforge';
     eng.name.head = 'Elite';
@@ -101,11 +106,21 @@ function onInit() {
                         for(let pp in partNames) {
                             let partName = response.rows[rr].cellsArray[pp*3];
                             if(partName) {
-                                this.enginePartData[partNames[pp]].push({ 
+                                let thisPart = {
                                     name: partName,
                                     materialClass: response.rows[rr].cellsArray[pp*3 + 1],
-                                    basePower: response.rows[rr].cellsArray[pp*3 + 2]
-                                });
+                                };
+                                switch(partNames[pp]) {
+                                    case 'case': {
+                                        thisPart.tier = parseInt(response.rows[rr].cellsArray[pp*3 + 2]);
+                                        break;   
+                                    }
+                                    case 'head': {
+                                        thisPart.basePower = parseInt(response.rows[rr].cellsArray[pp*3 + 2]);
+                                        break;
+                                    }
+                                }
+                                this.enginePartData[partNames[pp]].push(thisPart);
                             }
                         }
                     }
@@ -142,8 +157,8 @@ function onInit() {
 // Declare app level module which depends on views, and components
 angular.module('waEngineCalc', ['chart.js']).component('app', {
     templateUrl : 'app.template.html',
-    controller: [ '$scope', '$window', '$filter',
-        function($scope, $window, $filter) {
+    controller: [ '$scope', '$window', '$filter', 'materialData',
+        function($scope, $window, $filter, materialData) {
 
             //bindable properties
             this.materialData = {};
@@ -192,10 +207,11 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                         let compKeys = Object.keys(this.slots);
                         let mass = 0;
                         for(let ss in compKeys) 
-                            mass += app.materialData[this.slots[compKeys[ss]].material].unitMass * schem.components[compKeys[ss]].matCount;
+                            mass += app.materialData[this.slots[compKeys[ss]].material].unitMass * EngineSchem.wpuFactors[schem.tier - 1] * schem.components[compKeys[ss]].matCount;
                         return mass;
                     }
                     catch(e) {
+                        //console.log(e);
                         return 0;
                     }
                 };
@@ -377,11 +393,18 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
 
                 });
             });
-            this.onEngineSchemUpdate = (engineId, property, engineSchemData) => {
+            this.onEngineSchemUpdate = function(engineId, property, engineSchemData)  {
                 console.log('Engine Schem updated.');
                 let idx = this.engineList.findIndex(item => { return item.id === engineId; });
-                //this.engineList[idx] = {id: engineId, schem: angular.copy(engineSchemData) };
+                
                 this.engineList[idx].schem = angular.copy(engineSchemData);
+                //identify tier of engine from case name
+                if(property === 'name') {
+                    let part = this.enginePartData.case.find((thisCase) => { return thisCase.name === engineSchemData.name.case; } );
+                    this.engineList[idx].schem.tier = part.tier;
+
+                }
+
                 this.saveEngineList();
                 this.recalcChartData();
             };
@@ -437,6 +460,10 @@ angular.module('waEngineCalc', ['chart.js']).component('app', {
                this.graphMode = args; 
                this.recalcChartData();
             });
+            
+            materialData.initData().then(
+                function() { console.log('Successfully loaded spreadsheet');},
+                function(error) { console.log('could not load data because ' + error); });
         }
     ]
 });

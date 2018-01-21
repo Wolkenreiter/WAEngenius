@@ -11,9 +11,9 @@ and open the template in the editor.
             <div style="z-index: 1; position:absolute; top:0; left:32px">
                 <airspeed-indicator speed="$ctrl.currentShip.getSpeed()"></airspeed-indicator>
             </div>
-            <div class="ship-component-box-outer" style="position: absolute;z-index:0; top: 32%; left: 0; right:0; height: 70px">
+            <div class="ship-component-box-outer" style="position: absolute;z-index:0; top: 50%; left: 0; right:0">
             
-                <div class="ship-component-box-inner full-border" style="position:absolute;left:300px; right:5px; bottom:5px; top:5px" >
+                <div class="ship-component-box-inner full-border" style="position:static;margin-left:300px;" >
                     <div class="stat-row" style="height:100%;vertical-align:middle">
                         <div class="ship-stat-column" >
                             <div style="font-size:24pt">{{$ctrl.currentShip.getSpeed()|number:2}}kn</div>
@@ -59,9 +59,6 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <p class="hint">
-                Hint: You can use basic expressions here, e.g. <span style="font-style:italic">2*60+74</span>
-            </p>
         </div>
         <engine-set-editor ng-repeat="e in $ctrl.currentShip.engines track by e.setId" 
             set-id="e.setId" 
